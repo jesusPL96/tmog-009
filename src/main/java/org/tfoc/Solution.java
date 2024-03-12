@@ -20,55 +20,62 @@ public class Solution {
     public static Integer search(
             Integer[][] grid) {
 
-        Integer[][] aux = new Integer[grid.length][grid.length];
+        Integer[][] auxiliaryGrid = new Integer[grid.length][grid.length];
 
-        int unrottenOranges = 0;
+        int notRottenOranges = 0;
         int minutesPassed = 0;
 
-        //saco el numero de naranjas que no se han podrido
         for(int i = 0; i< grid.length; i++){
             for(int j = 0; j< grid.length; j++){
 
+                //Checking if an orange is not rotten and inaccesible to rotten ones
                 if((i-1<0||grid[i-1][j]==0)
-                        &&(j-1<0||grid[i][j-1]==0)
-                        &&(i+1>= grid.length||grid[i+1][j]==0)
-                        &&(j+1>= grid.length||grid[i][j+1]==0)
+                        && (j-1<0||grid[i][j-1]==0)
+                        && (i+1>= grid.length||grid[i+1][j]==0)
+                        && (j+1>= grid.length||grid[i][j+1]==0)
                         && grid[i][j]==1){
+
                     return -1;
                 }
 
+                //Counting the not rotten oranges
                 if(grid[i][j]==1){
-                    unrottenOranges++;
+                    notRottenOranges++;
                 }
             }
         }
 
-        while(unrottenOranges!=0) {
+        //We rot until there are no good oranges left
+        while(notRottenOranges!=0) {
 
             for (int i = 0; i < grid.length; i++) {
                 for (int j = 0; j < grid.length; j++) {
 
+                    //Checking if an orange is not rotten, and if its adjacent to a rotten one, then we rot it
                     if (grid[i][j] == 1) {
                         if ((j + 1 <= grid.length-1 && grid[i][j + 1] == 2)
                                 || (i + 1 <= grid.length-1 && grid[i+1][j] == 2)
                                 || (j - 1 >= 0 && grid[i][j - 1] == 2)
                                 || (i - 1 >= 0 && grid[i - 1][j] == 2)) {
-                            aux[i][j] = 2;
-                            unrottenOranges--;
-                        } else {
-                            aux[i][j] = 1;
+                            auxiliaryGrid[i][j] = 2;
+                            notRottenOranges--;
+                        }
+                        //The rest should be equal
+                        else {
+                            auxiliaryGrid[i][j] = 1;
                         }
                     } else if(grid[i][j] == 2){
-                        aux[i][j] = 2;
+                        auxiliaryGrid[i][j] = 2;
                     } else {
-                        aux[i][j] = 0;
+                        auxiliaryGrid[i][j] = 0;
                     }
 
                 }
             }
 
-            grid = aux;
-            aux = new Integer[grid.length][grid.length];
+            //Each cicle is a minute, and the new grid is the auxiliary grid, while resetting this one
+            grid = auxiliaryGrid;
+            auxiliaryGrid = new Integer[grid.length][grid.length];
             minutesPassed++;
 
         }
