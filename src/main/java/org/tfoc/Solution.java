@@ -5,18 +5,6 @@ package org.tfoc;
  */
 public class Solution {
 
-    public static void main(String[] args) {
-
-        Integer[][] matriz = {
-                {2, 1, 1},
-                {1, 1, 0},
-                {0, 1, 1}
-        };
-
-        System.out.println(search(matriz));
-
-    }
-
     public static Integer search(
             Integer[][] grid) {
 
