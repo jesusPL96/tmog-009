@@ -8,10 +8,9 @@ public class Solution {
     public static void main(String[] args) {
 
         Integer[][] matriz = {
-                {1, 1, 0, 2},
-                {1, 2, 1, 1},
-                {0, 0, 1, 1},
-                {1, 1, 1, 2}
+                {2, 1, 1},
+                {1, 1, 0},
+                {0, 1, 1}
         };
 
         System.out.println(search(matriz));
@@ -33,7 +32,8 @@ public class Solution {
                 if((i-1<0||grid[i-1][j]==0)
                         &&(j-1<0||grid[i][j-1]==0)
                         &&(i+1>= grid.length||grid[i+1][j]==0)
-                        &&(j+1>= grid.length||grid[i][j+1]==0)){
+                        &&(j+1>= grid.length||grid[i][j+1]==0)
+                        && grid[i][j]==1){
                     return -1;
                 }
 
@@ -49,12 +49,17 @@ public class Solution {
                 for (int j = 0; j < grid.length; j++) {
 
                     if (grid[i][j] == 1) {
-                        if ((j + 1 <= grid.length-1 && grid[i][j + 1] == 2) || (i + 1 <= grid.length-1 && grid[i+1][j] == 2)) {
+                        if ((j + 1 <= grid.length-1 && grid[i][j + 1] == 2)
+                                || (i + 1 <= grid.length-1 && grid[i+1][j] == 2)
+                                || (j - 1 >= 0 && grid[i][j - 1] == 2)
+                                || (i - 1 >= 0 && grid[i - 1][j] == 2)) {
                             aux[i][j] = 2;
                             unrottenOranges--;
                         } else {
                             aux[i][j] = 1;
                         }
+                    } else if(grid[i][j] == 2){
+                        aux[i][j] = 2;
                     } else {
                         aux[i][j] = 0;
                     }
@@ -63,6 +68,7 @@ public class Solution {
             }
 
             grid = aux;
+            aux = new Integer[grid.length][grid.length];
             minutesPassed++;
 
         }
